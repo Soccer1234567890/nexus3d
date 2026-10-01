@@ -1,6 +1,6 @@
 # ORBIT — Milestone 0: Brainstorm & Plan
 
-_Status: awaiting product confirmation before Milestone 1 begins._
+_Status: Milestone 1 (foundation realignment) complete. Next: Milestone 2, domain and storage._
 
 ## 1. Where the repository stands (verified 2026-10-01)
 
