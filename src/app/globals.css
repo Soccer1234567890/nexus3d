@@ -1,1 +1,175 @@
 @import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   ORBIT design tokens
+   Semantic colours live on :root as raw values and are re-declared for
+   dark mode. Tailwind reads them through @theme inline so utilities such
+   as bg-canvas, text-ink or border-hairline resolve to the live value.
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light dark;
+
+  --canvas: #f6f6f4;
+  --surface: #ffffff;
+  --surface-translucent: rgba(246, 246, 244, 0.72);
+  --ink: #16161a;
+  --ink-muted: #5f5f66;
+  --ink-faint: #9a9aa3;
+  --hairline: rgba(22, 22, 26, 0.08);
+  --hairline-strong: rgba(22, 22, 26, 0.16);
+  --accent: #2e5bff;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(46, 91, 255, 0.1);
+  --shadow-float: 0 1px 2px rgba(22, 22, 26, 0.06), 0 8px 24px -12px rgba(22, 22, 26, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --canvas: #0f0f12;
+    --surface: #18181d;
+    --surface-translucent: rgba(15, 15, 18, 0.68);
+    --ink: #f1f1ee;
+    --ink-muted: #9a9aa3;
+    --ink-faint: #6b6b74;
+    --hairline: rgba(241, 241, 238, 0.1);
+    --hairline-strong: rgba(241, 241, 238, 0.18);
+    --accent: #7a96ff;
+    --accent-ink: #0f0f12;
+    --accent-soft: rgba(122, 150, 255, 0.14);
+    --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+:root[data-theme='dark'] {
+  --canvas: #0f0f12;
+  --surface: #18181d;
+  --surface-translucent: rgba(15, 15, 18, 0.68);
+  --ink: #f1f1ee;
+  --ink-muted: #9a9aa3;
+  --ink-faint: #6b6b74;
+  --hairline: rgba(241, 241, 238, 0.1);
+  --hairline-strong: rgba(241, 241, 238, 0.18);
+  --accent: #7a96ff;
+  --accent-ink: #0f0f12;
+  --accent-soft: rgba(122, 150, 255, 0.14);
+  --shadow-float: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-translucent: var(--surface-translucent);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-sans:
+    -apple-system, 'SF Pro Text', system-ui, 'Segoe UI Variable', 'Segoe UI', Inter, Roboto,
+    'Helvetica Neue', sans-serif;
+
+  --shadow-float: var(--shadow-float);
+
+  --radius-control: 10px;
+  --radius-card: 14px;
+
+  --height-topbar: 3.5rem;
+}
+
+/* Base ------------------------------------------------------------- */
+html {
+  background: var(--canvas);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--canvas);
+  color: var(--ink);
+  line-height: 1.5;
+  transition: background-color 240ms ease;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+/* Focus: visible for keyboard users, quiet for pointer users. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Type roles ------------------------------------------------------- */
+.type-display {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+}
+
+.type-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+}
+
+.type-body {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.type-caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--ink-muted);
+}
+
+.type-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Materials -------------------------------------------------------- */
+.material-bar {
+  background: var(--surface-translucent);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .material-bar {
+    background: var(--canvas);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
